@@ -8,8 +8,10 @@
           v-for="filter in filters"
           :key="filter"
           @click="chosenFilter(filter)"
-          :class="{ up: activeSort[filter] === 1, down: activeSort[filter] === 2 }"
+          :class="{ active: activeSort[filter] !== 0 }"
         >
+          <img :src="chevronDown" alt="" width="25px" v-if="activeSort[filter] === 2" />
+          <img :src="chevronUp" alt="" width="25px" v-if="activeSort[filter] === 1" />
           {{ filter }}
         </button>
       </div>
@@ -18,6 +20,9 @@
   </div>
 </template>
 <script>
+import chevronDown from '../assets/chevron-down.svg';
+import chevronUp from '../assets/chevron-up.svg';
+
 export default {
   name: 'AppSort',
 
@@ -35,6 +40,8 @@ export default {
         name: 0,
       },
       sortedProducts: [],
+      chevronDown,
+      chevronUp,
     };
   },
 
