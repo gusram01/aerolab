@@ -1,24 +1,27 @@
 <template>
   <div class="home">
-    <app-user-menu v-if="user.name" :user="user"></app-user-menu>
+    <app-user-menu v-if="user.name" :user="user" />
 
     <app-paginator
       v-if="this.products && this.products.length"
       :arrLength="this.products.length"
       @items="paginatorItems"
-    >
-    </app-paginator>
+    />
+
     <app-sort v-if="products" :filters="filters" :products="products" @sortedProducts="handleSort">
       <section class="card__container">
         <app-card
           v-for="product in renderProducts"
           :key="product._id"
           :product="product"
-        ></app-card>
+          :disabled="disabled"
+          :visible="user.points >= product.cost"
+          @redeem="handleRedeem"
+        />
       </section>
     </app-sort>
 
-    <app-loader v-else></app-loader>
+    <app-loader v-else />
   </div>
 </template>
 
@@ -28,7 +31,12 @@ import AppPaginator from '@/components/AppPaginator.vue';
 import AppLoader from '@/components/AppLoader.vue';
 import AppCard from '@/components/AppCard.vue';
 import AppSort from '@/components/AppSort.vue';
-import { getProducts, getUserInfo } from '@/services';
+import {
+  //  getProducts,
+  getUserInfo,
+  redeemById,
+} from '@/services';
+import { dummy } from '../helpers/dummy';
 
 export default {
   name: 'Home',
@@ -36,22 +44,26 @@ export default {
   data() {
     return {
       filters: ['price', 'category', 'name'],
-      products: null,
+      products: dummy,
       first: null,
       last: null,
       sortedProducts: null,
       user: {},
+      redeemError: null,
+      disabled: {
+        isLoading: false,
+        id: null,
+      },
     };
   },
   created() {
-    getProducts()
-      .then(data => {
-        console.log(data);
-        this.products = data;
-      })
-      .catch(err => {
-        this.products = err;
-      });
+    // getProducts()
+    //   .then(data => {
+    //     this.products = data;
+    //   })
+    //   .catch(err => {
+    //     this.products = err;
+    //   });
     getUserInfo()
       .then(data => {
         if (!data) {
@@ -71,6 +83,36 @@ export default {
     },
     handleSort(sortedProducts) {
       this.sortedProducts = sortedProducts;
+    },
+    handleRedeem(id) {
+      const prod = this.products.filter(product => product._id === id)[0];
+      if (prod.cost > this.user.points) {
+        return;
+      }
+
+      this.disabled.isLoading = true;
+      this.disabled.id = id;
+
+      redeemById(id)
+        .then(resp => {
+          if (!resp) {
+            this.redeemError = true;
+          }
+          return getUserInfo();
+        })
+        .then(data => {
+          if (!data) {
+            return;
+          }
+          this.user = data;
+        })
+        .catch(err => {
+          console.error(err);
+        })
+        .finally(() => {
+          this.disabled.isLoading = false;
+          this.disabled.id = null;
+        });
     },
   },
 

@@ -32,3 +32,21 @@ export const getUserInfo = () =>
       console.error(err);
       return undefined;
     });
+export const redeemById = id =>
+  axios
+    .post(
+      `${CONFIG.BASE_URL}/redeem`,
+      {
+        productId: id,
+      },
+      {
+        headers,
+      },
+    )
+    .then(resp => {
+      return resp.status === 200;
+    })
+    .catch(err => {
+      console.error(err);
+      return false;
+    });

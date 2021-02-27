@@ -10,6 +10,14 @@
         {{ product.category }}
       </p>
     </div>
+    <button
+      v-if="visible"
+      class="button action"
+      :disabled="disabled.isLoading && disabled.id === product._id"
+      @click="handleClick(product._id)"
+    >
+      redeem
+    </button>
   </article>
 </template>
 <script>
@@ -17,6 +25,11 @@ export default {
   name: 'AppCard',
 
   props: {
+    visible: Boolean,
+    disabled: {
+      isLoading: Boolean,
+      id: String,
+    },
     product: {
       _id: String,
       name: String,
@@ -26,6 +39,15 @@ export default {
         url: String,
         hdUrl: String,
       },
+    },
+  },
+
+  methods: {
+    handleClick(id) {
+      if (this.disabled.isLoading) {
+        return;
+      }
+      this.$emit('redeem', id);
     },
   },
 };
