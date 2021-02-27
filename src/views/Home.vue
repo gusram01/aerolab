@@ -31,7 +31,15 @@ import AppPaginator from '@/components/AppPaginator.vue';
 import AppLoader from '@/components/AppLoader.vue';
 import AppCard from '@/components/AppCard.vue';
 import AppSort from '@/components/AppSort.vue';
-import { getProducts, getUserInfo, redeemById, chargePoints } from '@/services';
+import {
+  getProducts,
+  getUserInfo,
+  redeemById,
+  chargePoints,
+  warnSwal,
+  loaderSwal,
+  successSwal,
+} from '@/services';
 
 export default {
   name: 'Home',
@@ -82,6 +90,8 @@ export default {
     },
 
     handleCharge() {
+      loaderSwal();
+
       chargePoints()
         .then(resp => {
           if (!resp) {
@@ -91,12 +101,15 @@ export default {
         })
         .then(data => {
           if (!data) {
+            warnSwal('Oops, something went wrong, please try again later 😞');
             return;
           }
           this.user = data;
+          successSwal('Now yo have more ');
         })
         .catch(err => {
           console.error(err);
+          warnSwal('Oops, something went wrong, please try again later 😞');
         });
     },
 
@@ -109,10 +122,13 @@ export default {
       this.disabled.isLoading = true;
       this.disabled.id = id;
 
+      loaderSwal();
+
       redeemById(id)
         .then(resp => {
           if (!resp) {
             this.redeemError = true;
+            warnSwal('Oops, something went wrong, please try again later 😞');
           }
           return getUserInfo();
         })
@@ -121,9 +137,11 @@ export default {
             return;
           }
           this.user = data;
+          successSwal("You're on fire");
         })
         .catch(err => {
           console.error(err);
+          warnSwal('Oops, something went wrong, please try again later 😞');
         })
         .finally(() => {
           this.disabled.isLoading = false;

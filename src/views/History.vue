@@ -17,7 +17,7 @@
 <script>
 import AppLoader from '@/components/AppLoader.vue';
 import AppCard from '@/components/AppCard.vue';
-import { getUserHistory } from '@/services';
+import { getUserHistory, warnSwal, loaderSwal, closeSwal } from '@/services';
 
 export default {
   name: 'History',
@@ -31,12 +31,21 @@ export default {
     };
   },
   created() {
+    loaderSwal();
     getUserHistory()
       .then(data => {
+        if (!data) {
+          this.products = [];
+          warnSwal('Oops, it seems there is no history yet!!');
+          return;
+        }
+
         this.products = data;
+        closeSwal();
       })
-      .catch(err => {
-        this.products = err;
+      .catch(() => {
+        warnSwal('Oops, something went wrong, please try again later 😞');
+        this.products = [];
       });
   },
 
