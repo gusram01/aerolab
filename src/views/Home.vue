@@ -1,12 +1,17 @@
 <template>
   <div class="home">
-    <app-user-menu v-if="user.name" :user="user" />
+    <div class="hero">
+      <h1 class="principal-title">Loyalty Rewards</h1>
+      <img :src="imgHeader" alt="hero header" />
+    </div>
 
-    <app-paginator
-      v-if="this.products && this.products.length"
-      :arrLength="this.products.length"
-      @items="paginatorItems"
-    />
+    <app-user-menu v-if="user.name" :user="user">
+      <app-paginator
+        v-if="this.products && this.products.length"
+        :arrLength="this.products.length"
+        @items="paginatorItems"
+      />
+    </app-user-menu>
 
     <app-sort v-if="products" :filters="filters" :products="products" @sortedProducts="handleSort">
       <section class="card__container">
@@ -36,6 +41,7 @@ import {
   getUserInfo,
   redeemById,
 } from '@/services';
+import imgHeader from '../assets/header.webp';
 import { dummy } from '../helpers/dummy';
 
 export default {
@@ -54,6 +60,7 @@ export default {
         isLoading: false,
         id: null,
       },
+      imgHeader,
     };
   },
   created() {

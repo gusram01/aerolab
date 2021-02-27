@@ -1,13 +1,11 @@
 .paginator{
-  position: -webkit-sticky;
-  position: sticky;
   display: flex;
+  
   flex-wrap: wrap;
   align-items: center;
-  top: 0;
   width: 100%;
-  padding: 5vh 5vw;
-  margin: 5vh 0;
+  padding: 3vh 5vw;
+  margin: 2vh 0;
   background-color: $bg-color;
   z-index: 200;
   &__label{

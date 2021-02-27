@@ -1,0 +1,20 @@
+.hero{
+  position: relative;
+  width: 100%;
+  .principal-title{
+    position: absolute;
+    bottom: 3vw;
+    left: 13vw;
+    width: auto;
+    max-width: 220px;
+    margin: 0;
+    color: $color-white;
+    font-size: clamp(1rem, 10vw, 4rem);
+    text-align: center;
+  }
+  img{
+    max-width: 100%;
+    -o-object-fit: contain;
+       object-fit: contain;
+  }
+}
