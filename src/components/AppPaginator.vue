@@ -1,18 +1,24 @@
 <template>
   <div class="paginator">
-    <button class="button action" @click="back">👈 back</button>
+    <span class="paginator__label">Items: {{ first }} - {{ last }} of {{ arrLength }}</span>
+    <span class="separator"></span>
+    <button class="button action" @click="back">
+      <img :src="chevronLeft" alt="buton change page" />
+    </button>
+    <button class="button action" @click="next">
+      <img :src="chevronRight" alt="buton change page" />
+    </button>
     <select v-model="interval">
       <option>5</option>
       <option>10</option>
       <option>15</option>
     </select>
-    <button class="button action" @click="next">next 👉</button>
-
-    <span>{{ first }} - {{ last }} of {{ arrLength }}</span>
   </div>
 </template>
 <script>
 import { Paginator } from '@/services';
+import chevronLeft from '../assets/mid-chevron-left.svg';
+import chevronRight from '../assets/mid-chevron-right.svg';
 
 export default {
   name: 'AppPaginator',
@@ -27,6 +33,8 @@ export default {
       last: null,
       interval: 5,
       paginator: Paginator,
+      chevronLeft,
+      chevronRight,
     };
   },
 
