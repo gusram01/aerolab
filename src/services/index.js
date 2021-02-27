@@ -1,4 +1,4 @@
-import { getProducts, getUserInfo, redeemById } from './apiService';
+import { getProducts, getUserInfo, redeemById, getUserHistory } from './apiService';
 import { Paginator } from './paginationService';
 
-export { getProducts, Paginator, getUserInfo, redeemById };
+export { getProducts, Paginator, getUserInfo, redeemById, getUserHistory };

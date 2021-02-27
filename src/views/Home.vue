@@ -1,10 +1,5 @@
 <template>
   <div class="home">
-    <div class="hero">
-      <h1 class="principal-title">Loyalty Rewards</h1>
-      <img :src="imgHeader" alt="hero header" />
-    </div>
-
     <app-user-menu v-if="user.name" :user="user">
       <app-paginator
         v-if="this.products && this.products.length"
@@ -36,13 +31,7 @@ import AppPaginator from '@/components/AppPaginator.vue';
 import AppLoader from '@/components/AppLoader.vue';
 import AppCard from '@/components/AppCard.vue';
 import AppSort from '@/components/AppSort.vue';
-import {
-  //  getProducts,
-  getUserInfo,
-  redeemById,
-} from '@/services';
-import imgHeader from '../assets/header.webp';
-import { dummy } from '../helpers/dummy';
+import { getProducts, getUserInfo, redeemById } from '@/services';
 
 export default {
   name: 'Home',
@@ -50,7 +39,7 @@ export default {
   data() {
     return {
       filters: ['price', 'category', 'name'],
-      products: dummy,
+      products: null,
       first: null,
       last: null,
       sortedProducts: null,
@@ -60,17 +49,16 @@ export default {
         isLoading: false,
         id: null,
       },
-      imgHeader,
     };
   },
   created() {
-    // getProducts()
-    //   .then(data => {
-    //     this.products = data;
-    //   })
-    //   .catch(err => {
-    //     this.products = err;
-    //   });
+    getProducts()
+      .then(data => {
+        this.products = data;
+      })
+      .catch(err => {
+        this.products = err;
+      });
     getUserInfo()
       .then(data => {
         if (!data) {

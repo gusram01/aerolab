@@ -7,7 +7,7 @@
     <p class="card__category">
       {{ product.category }}
     </p>
-    <div class="card__actions">
+    <div class="card__actions" v-if="!historyMode">
       <p class="points" v-if="calcPoints">
         {{ product.cost }}
       </p>
@@ -27,6 +27,14 @@
       >
         <img :src="shopBag" alt="shop bag icon" />
       </button>
+    </div>
+    <div class="card__history" v-else>
+      <p>This product was redeeme at: {{ product.createDate }}</p>
+      <p>
+        With amount of:
+        {{ product.cost }}
+        💎
+      </p>
     </div>
   </article>
 </template>
@@ -48,6 +56,7 @@ export default {
       name: String,
       cost: Number,
       category: String,
+      createDate: String,
       img: {
         url: String,
         hdUrl: String,
@@ -58,7 +67,12 @@ export default {
   data() {
     return {
       shopBag,
+      historyMode: false,
     };
+  },
+
+  created() {
+    this.historyMode = this.$route.meta.historyMode;
   },
 
   methods: {

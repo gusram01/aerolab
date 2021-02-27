@@ -32,6 +32,20 @@ export const getUserInfo = () =>
       console.error(err);
       return undefined;
     });
+
+export const getUserHistory = () =>
+  axios
+    .get(`${CONFIG.BASE_URL}/user/history`, {
+      headers,
+    })
+    .then(resp => {
+      return resp.status === 200 && resp.data;
+    })
+    .catch(err => {
+      console.error(err);
+      return undefined;
+    });
+
 export const redeemById = id =>
   axios
     .post(

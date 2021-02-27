@@ -9,6 +9,16 @@ const routes = [
     name: 'Home',
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
   },
+  {
+    path: '/history',
+    name: 'History',
+    component: () => import(/* webpackChunkName: "history" */ '../views/History.vue'),
+    meta: { historyMode: true },
+  },
+  {
+    path: '**',
+    redirect: '/',
+  },
 ];
 
 const router = new VueRouter({
