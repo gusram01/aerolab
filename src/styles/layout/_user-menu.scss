@@ -17,6 +17,21 @@
     margin-right: 1rem;
   }
   &__title{
+    position: relative;
     margin: 0;
+  }
+  &__title:hover::after{
+    content: '';
+    position: absolute;
+    display: flex;
+    top: -0.5em;
+    left: -10%;
+    width: 120%;
+    height: 100%;
+    padding: 1em;
+    background-color:rgba(100,100,100,0.1);
+    border-radius: 25px;
+    transition: background 200ms ease-in;
+    cursor: pointer;
   }
 }

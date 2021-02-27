@@ -4,28 +4,41 @@
     <div class="card__image">
       <img :src="product.img.url" :alt="product.name" />
     </div>
-    <div class="card__content">
-      <p>{{ product.cost }}</p>
-      <p>
-        {{ product.category }}
+    <p class="card__category">
+      {{ product.category }}
+    </p>
+    <div class="card__actions">
+      <p class="points" v-if="calcPoints">
+        {{ product.cost }}
       </p>
+      <p v-else>
+        Almost there:
+        <span>
+          {{ product.cost - points }}
+          💎
+        </span>
+        more...
+      </p>
+      <button
+        v-if="calcPoints"
+        class="button action"
+        :disabled="disabled.isLoading && disabled.id === product._id"
+        @click="handleClick(product._id)"
+      >
+        <img :src="shopBag" alt="shop bag icon" />
+      </button>
     </div>
-    <button
-      v-if="visible"
-      class="button action"
-      :disabled="disabled.isLoading && disabled.id === product._id"
-      @click="handleClick(product._id)"
-    >
-      redeem
-    </button>
   </article>
 </template>
+
 <script>
+import shopBag from '../assets/shopbag.svg';
+
 export default {
   name: 'AppCard',
 
   props: {
-    visible: Boolean,
+    points: Number,
     disabled: {
       isLoading: Boolean,
       id: String,
@@ -42,12 +55,24 @@ export default {
     },
   },
 
+  data() {
+    return {
+      shopBag,
+    };
+  },
+
   methods: {
     handleClick(id) {
       if (this.disabled.isLoading) {
         return;
       }
       this.$emit('redeem', id);
+    },
+  },
+
+  computed: {
+    calcPoints() {
+      return this.points >= this.product.cost;
     },
   },
 };

@@ -20,7 +20,7 @@
           :key="product._id"
           :product="product"
           :disabled="disabled"
-          :visible="user.points >= product.cost"
+          :points="user.points"
           @redeem="handleRedeem"
         />
       </section>
