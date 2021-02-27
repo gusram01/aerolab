@@ -10,4 +10,5 @@
 @import './styles/helpers/mixins';
 @import './styles/base/general';
 @import './styles/base/buttons-links';
+@import './styles/layout/index-layout';
 </style>
