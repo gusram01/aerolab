@@ -5,7 +5,7 @@
         <img :src="logo" alt="logo" />
       </router-link>
       <router-link class="button accent outline" :to="{ name: 'History' }"> History </router-link>
-      <button class="button accent outline">Charge</button>
+      <button class="button accent outline" @click="handleCharge">Charge</button>
     </div>
 
     <div class="separator"></div>
@@ -44,6 +44,9 @@ export default {
   methods: {
     handleClick() {
       this.active = !this.active;
+    },
+    handleCharge() {
+      this.$emit('charge');
     },
   },
 };

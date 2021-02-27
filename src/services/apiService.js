@@ -64,3 +64,22 @@ export const redeemById = id =>
       console.error(err);
       return false;
     });
+
+export const chargePoints = () =>
+  axios
+    .post(
+      `${CONFIG.BASE_URL}/user/points`,
+      {
+        amount: 1000,
+      },
+      {
+        headers,
+      },
+    )
+    .then(resp => {
+      return resp.status === 200;
+    })
+    .catch(err => {
+      console.error(err);
+      return false;
+    });

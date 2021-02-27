@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <app-user-menu v-if="user.name" :user="user">
+    <app-user-menu v-if="user.name" :user="user" @charge="handleCharge">
       <app-paginator
         v-if="this.products && this.products.length"
         :arrLength="this.products.length"
@@ -31,7 +31,7 @@ import AppPaginator from '@/components/AppPaginator.vue';
 import AppLoader from '@/components/AppLoader.vue';
 import AppCard from '@/components/AppCard.vue';
 import AppSort from '@/components/AppSort.vue';
-import { getProducts, getUserInfo, redeemById } from '@/services';
+import { getProducts, getUserInfo, redeemById, chargePoints } from '@/services';
 
 export default {
   name: 'Home',
@@ -76,9 +76,30 @@ export default {
       this.first = first;
       this.last = last;
     },
+
     handleSort(sortedProducts) {
       this.sortedProducts = sortedProducts;
     },
+
+    handleCharge() {
+      chargePoints()
+        .then(resp => {
+          if (!resp) {
+            return false;
+          }
+          return getUserInfo();
+        })
+        .then(data => {
+          if (!data) {
+            return;
+          }
+          this.user = data;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+
     handleRedeem(id) {
       const prod = this.products.filter(product => product._id === id)[0];
       if (prod.cost > this.user.points) {
