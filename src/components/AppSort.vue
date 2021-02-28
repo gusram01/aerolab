@@ -77,6 +77,7 @@ export default {
         this.sortedProducts = this.sortDown(filter, this.sortedProducts);
       }
       this.$emit('sortedProducts', this.sortedProducts);
+      this.$bus.$emit('changeSort');
     },
 
     sortUp(filter, arr) {

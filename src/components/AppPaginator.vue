@@ -1,6 +1,6 @@
 <template>
   <div class="paginator">
-    <span class="paginator__label">{{ first }} to {{ last }} of {{ arrLength }}</span>
+    <span class="paginator__label">{{ +first + 1 }} to {{ last }} of {{ arrLength }}</span>
     <span class="separator"></span>
     <button class="button action" @click="back">
       <img :src="chevronLeft" alt="buton change page" />
@@ -47,6 +47,11 @@ export default {
     this.paginator = new Paginator(this.arrLength, this.interval);
     this.setItemsCounters();
     this.emitItemsCounters();
+    this.$bus.$on('changeSort', () => {
+      this.last = this.paginator.restart(+this.interval);
+      this.setItemsCounters();
+      this.emitItemsCounters();
+    });
   },
 
   methods: {
