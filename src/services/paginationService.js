@@ -1,5 +1,5 @@
 export class Paginator {
-  constructor(arrLength, first = 0, interval = 5) {
+  constructor(arrLength, interval = 5, first = 0) {
     this._arrLength = arrLength;
     this._interval = +interval;
     this._first = +first;

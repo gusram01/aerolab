@@ -1,6 +1,5 @@
-.paginator{
+.paginator {
   display: flex;
-  
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
@@ -8,29 +7,48 @@
   margin: 2vh 0;
   background-color: $bg-color;
   z-index: 200;
-  &__label{
-    font-size: 1.2em;
+  &__label {
+    font-size: clamp(0.8em, 2vw, 1.2em);
     font-style: italic;
     font-weight: 600;
   }
-  select{
+  .paginator__select {
     position: relative;
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
-    padding: 0.5em 1em;
-    background-color: transparent;
-    font-feature-settings: "tnum";
-    font-size: 1em;
-    -moz-text-align-last: center;
-         text-align-last: center;
-    border: none;
-    border-bottom: 3px solid $font-color;
-    &:focus{
-      outline: none;
-      background-color: rgba(100,100,200,0.1);
+    min-width: 50px;
+    min-height: 35px;
+    label {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      width: 100%;
+      font-size: 0.7em;
+      opacity: 0.75;
+      transform: translate(-50%);
+      font-style: italic;
+      text-align: center;
     }
-    
-  }
+    select {
+      position: absolute;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      top: 0;
+      left: 50%;
+      width: 100%;
 
+      padding: 0.8em 0.5em 0.5em;
+      background-color: transparent;
+      transform: translate(-50%);
+      font-feature-settings: 'tnum';
+      font-size: 1em;
+      -moz-text-align-last: center;
+      text-align-last: center;
+      border: none;
+      border-bottom: 3px solid $font-color;
+      &:focus {
+        outline: none;
+        background-color: rgba(100, 100, 200, 0.1);
+      }
+    }
+  }
 }

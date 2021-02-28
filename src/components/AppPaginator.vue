@@ -1,18 +1,23 @@
 <template>
   <div class="paginator">
-    <span class="paginator__label">Items: {{ first }} - {{ last }} of {{ arrLength }}</span>
+    <span class="paginator__label">{{ first }} to {{ last }} of {{ arrLength }}</span>
     <span class="separator"></span>
     <button class="button action" @click="back">
       <img :src="chevronLeft" alt="buton change page" />
     </button>
+
+    <div class="paginator__select">
+      <label for="items"># items</label>
+      <select v-model="interval" id="items">
+        <option>5</option>
+        <option>10</option>
+        <option>15</option>
+      </select>
+    </div>
+
     <button class="button action" @click="next">
       <img :src="chevronRight" alt="buton change page" />
     </button>
-    <select v-model="interval">
-      <option>5</option>
-      <option>10</option>
-      <option>15</option>
-    </select>
   </div>
 </template>
 <script>
